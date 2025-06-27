@@ -1,0 +1,1 @@
+Make an interface name builder.html where there will be list of differnt input fields like name, email, phone, number, text, hidden, textarea and all other possitble fields. There will be area where form field will be inserted. Clicking the fields will insert the field in that form field area. Do this using alpineJS and tailwindcss. Make it visually appealing in ui.
