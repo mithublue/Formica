@@ -14,7 +14,6 @@
             <div class="px-6 py-4 border-b border-gray-200">
                 <h1 class="text-2xl font-bold text-gray-900">Food Processing Tracking Form</h1>
             </div>
-            
             <div class="p-6">
                 <form @submit.prevent="submitForm" class="space-y-6">
                     <!-- Stage Selection -->
@@ -22,11 +21,11 @@
                         <label for="stage" class="block text-sm font-medium text-gray-700">
                             Stage <span class="text-red-500">*</span>
                         </label>
-                        <select 
-                            id="stage" 
-                            x-model="formData.stage" 
+                        <select
+                            id="stage"
+                            x-model="formData.stage"
                             @change="handleStageChange"
-                            required 
+                            required
                             class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         >
                             <option value="">Select processing stage</option>
@@ -39,7 +38,7 @@
                     <!-- Conditional Fields -->
                     <div x-show="formData.stage" x-transition class="border-t pt-6">
                         <h3 x-text="getStageTitle()" class="text-lg font-semibold mb-4"></h3>
-                        
+
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <template x-for="fieldGroup in getConditionalFields()" :key="fieldGroup.on">
                                 <template x-for="(fieldConfig, fieldKey) in fieldGroup.fields" :key="fieldKey">
@@ -51,7 +50,7 @@
                                                     <span x-text="fieldConfig.label"></span>
                                                     <span x-show="fieldConfig.required" class="text-red-500 ml-1">*</span>
                                                 </label>
-                                                <input 
+                                                <input
                                                     :id="fieldKey"
                                                     :name="fieldKey"
                                                     type="text"
@@ -70,7 +69,7 @@
                                                     <span x-text="fieldConfig.label"></span>
                                                     <span x-show="fieldConfig.required" class="text-red-500 ml-1">*</span>
                                                 </label>
-                                                <textarea 
+                                                <textarea
                                                     :id="fieldKey"
                                                     :name="fieldKey"
                                                     x-model="formData[fieldKey]"
@@ -89,7 +88,7 @@
                                                     <span x-text="fieldConfig.label"></span>
                                                     <span x-show="fieldConfig.required" class="text-red-500 ml-1">*</span>
                                                 </label>
-                                                <input 
+                                                <input
                                                     :id="fieldKey"
                                                     :name="fieldKey"
                                                     type="number"
@@ -110,7 +109,7 @@
                                                     <span x-text="fieldConfig.label"></span>
                                                     <span x-show="fieldConfig.required" class="text-red-500 ml-1">*</span>
                                                 </label>
-                                                <input 
+                                                <input
                                                     :id="fieldKey"
                                                     :name="fieldKey"
                                                     type="datetime-local"
@@ -128,7 +127,7 @@
                                                     <span x-text="fieldConfig.label"></span>
                                                     <span x-show="fieldConfig.required" class="text-red-500 ml-1">*</span>
                                                 </label>
-                                                <select 
+                                                <select
                                                     :id="fieldKey"
                                                     :name="fieldKey"
                                                     x-model="formData[fieldKey]"
@@ -150,7 +149,7 @@
                                                 <div class="space-y-2">
                                                     <template x-for="(label, value) in fieldConfig.values" :key="value">
                                                         <label class="flex items-center">
-                                                            <input 
+                                                            <input
                                                                 type="checkbox"
                                                                 :name="fieldKey + '[]'"
                                                                 :value="value"
@@ -179,7 +178,7 @@
                                                                         <span x-text="subFieldConfig.label"></span>
                                                                         <span x-show="subFieldConfig.required" class="text-red-500 ml-1">*</span>
                                                                     </label>
-                                                                    <input 
+                                                                    <input
                                                                         :id="subFieldKey"
                                                                         :name="subFieldKey"
                                                                         :type="subFieldConfig.type"
@@ -198,7 +197,7 @@
                                                                         <span x-text="subFieldConfig.label"></span>
                                                                         <span x-show="subFieldConfig.required" class="text-red-500 ml-1">*</span>
                                                                     </label>
-                                                                    <select 
+                                                                    <select
                                                                         :id="subFieldKey"
                                                                         :name="subFieldKey"
                                                                         x-model="formData[subFieldKey]"
@@ -230,7 +229,7 @@
                                                 <span x-text="subFieldConfig.label"></span>
                                                 <span x-show="subFieldConfig.required" class="text-red-500 ml-1">*</span>
                                             </label>
-                                            <input 
+                                            <input
                                                 :id="subFieldKey"
                                                 :name="subFieldKey"
                                                 :type="subFieldConfig.type"
@@ -250,8 +249,8 @@
 
                     <!-- Submit Button -->
                     <div class="flex justify-end pt-6">
-                        <button 
-                            type="submit" 
+                        <button
+                            type="submit"
                             :disabled="!formData.stage"
                             class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
@@ -596,11 +595,11 @@
 
                 getConditionalSubFields() {
                     const conditionalFields = [];
-                    
+
                     if (!this.formData.stage) return conditionalFields;
 
                     const currentStageFields = this.getConditionalFields();
-                    
+
                     currentStageFields.forEach(group => {
                         Object.entries(group.fields).forEach(([fieldKey, fieldConfig]) => {
                             if (fieldConfig.conditional_field_group) {
@@ -621,11 +620,11 @@
                 shouldShowConditionalField(conditionalField) {
                     const [parentField, expectedValue] = conditionalField.condition.split(':');
                     const currentValue = this.formData[parentField];
-                    
+
                     if (Array.isArray(currentValue)) {
                         return currentValue.includes(expectedValue);
                     }
-                    
+
                     return currentValue === expectedValue;
                 },
 

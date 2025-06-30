@@ -1,1 +1,258 @@
 Make an interface name builder.html where there will be list of differnt input fields like name, email, phone, number, text, hidden, textarea and all other possitble fields. There will be area where form field will be inserted. Clicking the fields will insert the field in that form field area. Do this using alpineJS and tailwindcss. Make it visually appealing in ui.
+
+dropping element in the area should generate a json object where there will be data settings for that element. Some settings will be common for all the fields while some will be specific to each field.
+For example: If text field is dropped, then it will generate a json object corresponding to that field found in the following json
+{
+  "name": {
+    "attributes": {
+      "label": "Full Name",
+      "placeholder": "Enter your full name",
+      "type": "text",
+      "required": true
+    },
+  },
+  "email": {
+    "attributes": {
+      "label": "Email",
+      "placeholder": "Enter your email",
+      "type": "email",
+      "required": true
+    },
+  },
+  "phone": {
+    "attributes": {
+      "label": "Phone",
+      "placeholder": "Enter your phone number",
+      "type": "tel",
+      "required": false
+    }
+  },
+  "address": {
+    "attributes": {
+      "label": "Address",
+      "placeholder": "Enter your address",
+      "type": "textarea",
+      "rows": 2
+    }
+  },
+  "website": {
+    "attributes": {
+      "label": "Website",
+      "placeholder": "https://example.com",
+      "type": "url"
+    }
+  },
+  "input": {
+    "attributes": {
+      "label": "Input",
+      "placeholder": "Enter value",
+      "type": "text"
+    }
+  },
+  "textarea": {
+    "attributes": {
+      "label": "Message",
+      "placeholder": "Type your message here",
+      "rows": 4
+    }
+  },
+  "number": {
+    "attributes": {
+      "label": "Quantity",
+      "type": "number",
+      "min": 1,
+      "max": 100
+    }
+  },
+  "radio": {
+    "attributes": {
+      "label": "Choose one",
+      "type": "radio",
+      "options": ["Option 1", "Option 2"]
+    }
+  },
+  "checkbox": {
+    "attributes": {
+      "label": "I agree",
+      "type": "checkbox",
+      "required": true
+    }
+  },
+  "calculations": {
+    "attributes": {
+      "label": "Total",
+      "formula": "number1 + number2",
+      "readonly": true
+    }
+  },
+  "select": {
+    "attributes": {
+      "label": "Select one",
+      "options": ["One", "Two", "Three"]
+    }
+  },
+  "datepicker": {
+    "attributes": {
+      "label": "Date",
+      "type": "date"
+    }
+  },
+  "timepicker": {
+    "attributes": {
+      "label": "Time",
+      "type": "time"
+    }
+  },
+  "file_upload": {
+    "attributes": {
+      "label": "Upload File",
+      "type": "file",
+      "accept": ".jpg,.pdf,.png",
+      "multiple": false
+    }
+  },
+  "post_data": {
+    "attributes": {
+      "label": "Post Meta Field",
+      "meta_key": "custom_key"
+    }
+  },
+  "captcha": {
+    "attributes": {
+      "label": "Security Check",
+      "type": "captcha",
+      "provider": "recaptcha_v2"
+    }
+  },
+  "html": {
+    "attributes": {
+      "label": "Custom HTML",
+      "content": "<p>This is a custom block.</p>"
+    }
+  },
+  "page_break": {
+    "attributes": {
+      "label": "Page Break"
+    }
+  },
+  "hidden_field": {
+    "attributes": {
+      "type": "hidden",
+      "name": "source",
+      "value": "forminator"
+    }
+  },
+  "section": {
+    "attributes": {
+      "label": "Section Header",
+      "description": "Group of fields"
+    }
+  },
+  "consent": {
+    "attributes": {
+      "label": "Consent",
+      "description": "I agree to the terms and conditions.",
+      "required": true
+    }
+  },
+  "currency": {
+    "attributes": {
+      "label": "Amount",
+      "type": "number",
+      "currency": "USD"
+    }
+  },
+  "stripe": {
+    "attributes": {
+      "label": "Stripe Payment",
+      "type": "payment",
+      "provider": "stripe"
+    }
+  },
+  "paypal": {
+    "attributes": {
+      "label": "PayPal Payment",
+      "type": "payment",
+      "provider": "paypal"
+    }
+  },
+  "field_group": {
+    "attributes": {
+      "label": "Field Group",
+      "fields": ["name", "email", "phone"]
+    }
+  },
+  "slider": {
+    "attributes": {
+      "label": "Range",
+      "type": "range",
+      "min": 0,
+      "max": 10,
+      "step": 1
+    }
+  },
+  "rating": {
+    "attributes": {
+      "label": "Rating",
+      "type": "rating",
+      "max": 5
+    }
+  },
+  "e_signature": {
+    "attributes": {
+      "label": "E-Signature",
+      "type": "signature"
+    }
+  },
+  "password": {
+    "attributes": {
+      "label": "Password",
+      "placeholder": "Enter password",
+      "type": "password"
+    }
+  },
+  "repeater": {
+    "attributes": {
+      "label": "Repeater Field",
+      "fields": ["text", "email"]
+    }
+  },
+  "image_upload": {
+    "attributes": {
+      "label": "Upload Image",
+      "type": "file",
+      "accept": "image/*"
+    }
+  },
+  "color_picker": {
+    "attributes": {
+      "label": "Pick a color",
+      "type": "color"
+    }
+  },
+  "switch": {
+    "attributes": {
+      "label": "Toggle",
+      "type": "switch",
+      "on_label": "Yes",
+      "off_label": "No"
+    }
+  }
+}
+s.n: store the above json object in another variable named field_lists.
+
+that generated json object will be saved as value of key of an exisiting object named form_fields. the key will be the form field name.
+e.g:
+form_fields = {
+'user_email' : {
+    "email": {
+        "attributes": {
+          "label": "Email",
+          "placeholder": "Enter your email",
+          "type": "email",
+          "required": true
+        }
+      },
+    } //here an email field with name "user_email" is created. the whole object of email including the key "email" from the field_lists will be saved as value of key "user_email
+}
+
